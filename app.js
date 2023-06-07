@@ -1,20 +1,21 @@
-const express = require('express');
-const app = express();
-const port = process.env.PORT || 5000;
-const data = require('./data.js')
+const express = require('express')
+const app = express()
 
+const peopleRouter = require('./routes/people')
+const loginRouter = require('./routes/auth')
+
+
+// static assets
 app.use(express.static('./methods-public'))
+// parse form data
 app.use(express.urlencoded({ extended: false }))
+// parse json
+app.use(express.json())
 
-// app.get('/', (req, res) => {
-//     res.json(data.products)
-// })
+app.use('/api/people', peopleRouter)
 
-app.post('/login', (req, res) => {
-    console.log(req.body)
-    res.send("Post")
-})
+app.use('/login', loginRouter)
 
-app.listen(port, () => {
-    console.log(`server is running on port ${port}`)
+app.listen(5000, () => {
+    console.log('Server is listening on port 5000....')
 })
