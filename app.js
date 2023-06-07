@@ -1,19 +1,20 @@
-const http = require('http');
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 5000;
+const data = require('./data.js')
 
-const server = http.createServer((req, res) => {
-    if (req.url === '/') {
+app.use(express.static('./methods-public'))
+app.use(express.urlencoded({ extended: false }))
 
-        res.writeHead(200, { 'content-type': 'text/html' })
-        res.write('<h1>Home Page</h1> <a href="/about">About Page</a> <a href="/contact">Contact Page</a> <a href="/error">Error Page</a>')
-        res.end()
-        return;
-    }
-    else {
-        res.end(`<h1>Oops!</h1> <p>We can't seem to find the page you are looking for</p> <a href="/">back home</a>`)
-    }
+// app.get('/', (req, res) => {
+//     res.json(data.products)
+// })
+
+app.post('/login', (req, res) => {
+    console.log(req.body)
+    res.send("Post")
 })
 
-server.listen(5000, () => {
-    console.log("Server is listening on port 5000")
+app.listen(port, () => {
+    console.log(`server is running on port ${port}`)
 })
-
